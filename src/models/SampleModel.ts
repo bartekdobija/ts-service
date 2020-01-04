@@ -1,0 +1,6 @@
+
+class SampleModel {
+
+}
+
+export = SampleModel

@@ -1,2 +1,2 @@
 # ts-service
-Typescript Service stub
+TypeScript service stub used in private projects.
