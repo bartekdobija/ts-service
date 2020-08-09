@@ -1,7 +1,6 @@
-import * as express from "express"
+import * as express from "express";
 
-let router: express.Router = express.Router()
-let x: { a: number, b?: string}
+const router: express.Router = express.Router();
+let x: { a: number, b?: string};
 
-
-export = router
+export = router;

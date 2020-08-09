@@ -1,23 +1,26 @@
 import * as express from "express";
-import SampleService from '../services/SampleService'
+import SampleService from "../services/SampleService";
+import { error, success } from "./Helpers";
 
-let router: express.Router = express.Router()
-let service: SampleService = new SampleService()
+const router: express.Router = express.Router();
+const service: SampleService = new SampleService();
 
+const handle = (result: Promise<any>, res: express.Response) => {
+  result
+    .then(r => success(res, r))
+    .catch(_ => error(res, "internal server error"));
+};
 
-router.use(express.json())
+router.use(express.json());
 
-router.get('/inventory', (req, res) =>{
-  res.status(200).json('service is running..')
+/**
+ * ping
+ */
+const ping = (req: express.Request, res: express.Response) => {
+    true ? handle(service.ping(), res)
+         : error(res, "bad request");
+};
 
-})
-
-router.put('/inventory', (req, res) =>{
-  res.status(200).json('service is running..')
-})
-
-router.delete('/inventory', (req, res) =>{
-  res.status(200).json('service is running..')
-})
-
-export = router
+export = {
+  ping,
+};

@@ -1,11 +1,9 @@
-import SampleModel = require("../models/SampleModel")
+import SampleModel from "../models/SampleModel";
 
-class SampleService {
-  private test: number
+export default class SampleService {
+  private test: number;
 
-  get(id: number): SampleModel {
-    return new SampleModel()
+  public async ping(message: string = "pong"): Promise<SampleModel> {
+    return { ping: message };
   }
 }
-
-export = SampleService

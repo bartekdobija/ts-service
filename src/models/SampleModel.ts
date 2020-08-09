@@ -1,6 +1,3 @@
-
-class SampleModel {
-
+export default interface SampleModel {
+  ping: string;
 }
-
-export = SampleModel
