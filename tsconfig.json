@@ -1,11 +1,27 @@
 {
-  "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es2020",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist"
-  },
-  "lib": ["es2020"]
-}
+   "compilerOptions": {
+     "removeComments": true,
+     "module": "CommonJS",
+     "allowSyntheticDefaultImports": true,
+     "target": "ESNext",
+     "allowJs": true,
+     "checkJs": true,
+     "resolveJsonModule": true,
+     "incremental": true,
+     "moduleResolution": "node",
+     "outDir": "dist",
+     "emitDecoratorMetadata": true,
+     "experimentalDecorators": true,
+     "sourceMap": true,
+     "esModuleInterop":true
+   },
+   "lib": ["ESNext"],
+   "include": [
+     "src"
+   ],
+    "exclude": [
+      "node_modules",
+      "**/*.spec.ts",
+      "**/*.test.ts"
+    ],
+ }

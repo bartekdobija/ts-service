@@ -1,0 +1,131 @@
+openapi: 3.0.0
+info:
+  title: api-media-manager
+  description: Image media manager (upload image, create thumbnails, extract dominant color)
+  version: 1.0.0
+servers:
+  - url: '{server}/v1'
+    variables:
+      server:
+        default: http://localhost:8086 # local test server
+        enum:
+          - http://localhost:8086
+          - http://media.test.spotly.co
+          - http://media.staging.spotly.co
+          - http://media.spotly.co # production
+paths:
+  /account/{userId}/pics:
+    get:
+      operationId: listMediaResources
+      summary: Get a list of all resources of a user identified by uid
+      description: >
+        Fetch an array of items from the catalog repository based on
+        latitude and longitude.
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        '200':
+          $ref: '#/components/responses/MediaList'
+        default:
+          $ref: '#/components/responses/BadRequest'
+  /account/me/pics:
+    post:
+      operationId: uploadMediaResource
+      summary: Retrieve item categories
+      description: Get catalog item recommendation
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/itemId'
+      responses:
+        '200':
+          description: List of keyword suggestions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogEntryResponse'
+        default:
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      operationId: deleteMediaResource
+      summary: Delete item information
+      description: Delete item information from the catalog.
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/itemId'
+      responses:
+        '200':
+          description: Deletes item by its identifier
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BooleanResponse'
+        default:
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    userId:
+      in: path
+      name: userId
+      description: User account identifier
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    MediaList:
+      description: List of pictures and their thumbnails
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MediaList'
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequest'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UnauthorizedError'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: hash
+  schemas:
+    BooleanResponse:
+      type: object
+      properties:
+        response:
+          type: boolean
+          example: true
+    MediaList:
+      type: object
+      properties:
+        responses:
+          type: string
+          readOnly: true
+          example: "bad request"
+    BadRequest:
+      type: object
+      properties:
+        response:
+          type: string
+          readOnly: true
+          example: "bad request"
+    UnauthorizedError:
+      type: object
+      properties:
+        response:
+          type: boolean
+          readOnly: true
+          example: "unauthorized"

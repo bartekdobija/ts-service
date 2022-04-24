@@ -1,19 +1,8 @@
 import * as express from "express";
-import {error, health, success } from "./Helpers";
-
-const router: express.Router = express.Router();
-
-router.use(express.json());
 
 /**
- * healthcheck status
+ * health check status
  */
-router.get("/health", (req, res) => {
-  health()
-    .then(result => {
-      (result.db === "online" ) ? success(res, result) : error(res, result);
-    })
-    .catch(ex => error(res, ex));
-});
-
-export = router;
+export const healthcheck = async (req: express.Request, res: express.Response) => {
+  res.status(200).json({ status: "ok" });
+};

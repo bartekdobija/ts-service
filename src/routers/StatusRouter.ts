@@ -1,12 +1,12 @@
 import * as express from "express";
 import { errorRequestHandler } from "ts-service-utils";
-import {ping} from "../controllers/Api";
+import {healthcheck} from "../controllers/ServiceStatus";
 
 const router = express.Router();
 
 /**
  * ping
  */
-router.get("/ping", ping, errorRequestHandler);
+router.get("/status", healthcheck, errorRequestHandler);
 
 export default router;
